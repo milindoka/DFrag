@@ -3,6 +3,7 @@ package com.example.dfrag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //showEditDialog();   ///own action
+                showAlertDialog();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -49,4 +52,28 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void showEditDialog() {
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        FragEditName frag = FragEditName.newInstance("Dialog Title");
+
+        frag.show(fm, "fragment_edit_name");
+
+    }
+
+
+    private void showAlertDialog() {
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        MyAlertDialogFragment alertDialog = MyAlertDialogFragment.newInstance("Some title");
+
+        alertDialog.show(fm, "fragment_alert");
+
+    }
+
+
 }
