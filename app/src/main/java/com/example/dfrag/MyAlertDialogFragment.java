@@ -101,8 +101,21 @@ public class MyAlertDialogFragment extends DialogFragment
                             for(int i=0;i<syze;i++) {
                                 File file = new File(selectedItems.get(i));
                                 boolean deleted = file.delete();
+
+
+                                String ttt=selectedItems.get(i).replaceAll(".bch",".pdf");
+
+                                File filepdf = new File(ttt);
+                                boolean deleted2 = filepdf.delete();
+
+                                String ccc=selectedItems.get(i).replaceAll(".bch","-Chart.pdf");
+
+                                File chartpdf = new File(ccc);
+                                boolean deleted3 = chartpdf.delete();
+
+
                             }
-                            Toast.makeText(getActivity(),String.format("Deleted %d Batche",syze),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),String.format("Deleted %d Batches",syze),Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -110,8 +123,6 @@ public class MyAlertDialogFragment extends DialogFragment
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                   //...
-
 
                     }
                 });
