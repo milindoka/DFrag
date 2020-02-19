@@ -17,12 +17,10 @@ import java.util.List;
 
 public class MyAlertDialogFragment extends DialogFragment
 {
-ArrayList selectedItems;
 
+    ArrayList<String> filepath = new ArrayList<String>();
 
-    ArrayList<String> filenem = new ArrayList<String>();
-
-
+    ArrayList<String> selectedItems = new ArrayList<String>();
 
     public MyAlertDialogFragment() {
 
@@ -56,7 +54,7 @@ ArrayList selectedItems;
 
         String tempstr;
         String rootDir= Environment.getExternalStorageDirectory().getPath();
-        List<String> listItems = new ArrayList<String>();
+        final List<String> listItems = new ArrayList<String>();
         File mfile=new File(rootDir);
         File[] list=mfile.listFiles();
         String tempupper;
@@ -65,7 +63,10 @@ ArrayList selectedItems;
             tempstr=list[i].getAbsolutePath();
             tempupper=tempstr.toUpperCase();
             if(tempupper.endsWith(".BCH") )
-                listItems.add(list[i].getAbsolutePath());
+                {
+                filepath.add(list[i].getAbsolutePath());
+                listItems.add(list[i].getName());
+                }
         }
 
         final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
@@ -75,7 +76,7 @@ ArrayList selectedItems;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Set the dialog title
-        builder.setTitle("Pick Toppings")
+        builder.setTitle("Delete Selected Batches")
                 // Specify the list array, the items to be selected by default (null for none),
                 // and the listener through which to receive callbacks when items are selected
                 .setMultiChoiceItems(items, null,
@@ -85,7 +86,7 @@ ArrayList selectedItems;
                                                 boolean isChecked) {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
-                                    selectedItems.add(which);
+                                    selectedItems.add(filepath.get(which));
                                 } else if (selectedItems.contains(which)) {
                                     // Else, if the item is already in the array, remove it
                                     selectedItems.remove(Integer.valueOf(which));
@@ -96,14 +97,14 @@ ArrayList selectedItems;
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        {
-                            Toast.makeText(getActivity(),selectedItems.get(0).toString(),Toast.LENGTH_SHORT).show();
-                            File file = new File(selectedItems.get(0).toString());
-                            boolean deleted = file.delete();
+                        {   int syze=selectedItems.size();
+                            for(int i=0;i<syze;i++) {
+                                File file = new File(selectedItems.get(i));
+                                boolean deleted = file.delete();
+                            }
+                            Toast.makeText(getActivity(),String.format("Deleted %d Batche",syze),Toast.LENGTH_SHORT).show();
                         }
-                        // User clicked OK, so save the selectedItems results somewhere
-                        // or return them to the component that opened the dialog
-                  // ...
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
