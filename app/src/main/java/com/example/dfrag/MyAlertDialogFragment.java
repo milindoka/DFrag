@@ -71,19 +71,8 @@ ArrayList selectedItems;
         final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
 
 
-
-        filenem.add("red");
-        filenem.add("blue");
-        filenem.add("green");
-
-        String[] arr = new String[filenem.size()];
-        for(int i=0 ; i< filenem.size();i++){
-            arr[i] = filenem.get(i);
-            //getProductName or any suitable method
-        }
-
-
         selectedItems = new ArrayList();  // Where we track the selected items
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Set the dialog title
         builder.setTitle("Pick Toppings")
@@ -107,6 +96,11 @@ ArrayList selectedItems;
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        {
+                            Toast.makeText(getActivity(),selectedItems.get(0).toString(),Toast.LENGTH_SHORT).show();
+                            File file = new File(selectedItems.get(0).toString());
+                            boolean deleted = file.delete();
+                        }
                         // User clicked OK, so save the selectedItems results somewhere
                         // or return them to the component that opened the dialog
                   // ...
@@ -123,42 +117,6 @@ ArrayList selectedItems;
 
         return builder.create();
     }
-
-
-
-
-    void OpenFileDialog()
-    {	String tempstr;
-        String rootDir= Environment.getExternalStorageDirectory().getPath();
-        List<String> listItems = new ArrayList<String>();
-        File mfile=new File(rootDir);
-        File[] list=mfile.listFiles();
-        String tempupper;
-        for(int i=0;i<mfile.listFiles().length;i++)
-        {
-            tempstr=list[i].getAbsolutePath();
-            tempupper=tempstr.toUpperCase();
-            if(tempupper.endsWith(".BCH") )
-                listItems.add(list[i].getAbsolutePath());
-        }
-
-        final CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select File To Open...");
-        builder.setItems(items, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int item)
-            {String ttt= (String) items[item];
-
-                Toast.makeText(getActivity(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
 
 
 }
